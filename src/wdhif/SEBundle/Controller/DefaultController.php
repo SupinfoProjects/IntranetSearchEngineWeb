@@ -80,10 +80,12 @@ class DefaultController extends Controller
             $data = $form->get('url')->getData();
             exec('SEClient', $url, $error);
             if ($data != null){
+                $data = preg_replace("#http://#", "",  $data);
+                $data = preg_replace("#/#", "",  $data);
                 $data = "submit:" . $data; // command for SEClient "submit:"
             }
-            //var_dump("SEClient " . $data); // var_dump test
-            exec("SEClient " . $data);
+            var_dump("SEClient " . $data); // var_dump test
+            //exec("SEClient " . $data);
         }
         return array(
             'form' => $form->createView(),
