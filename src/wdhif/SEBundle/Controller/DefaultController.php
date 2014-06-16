@@ -21,10 +21,12 @@ class DefaultController extends Controller
     public function indexAction(Request $request)
     {
         $pages = array();
-        $page = "yo";
-        for($i=0; $i < 12; $i++){
+        /*$page = "";
+        $resultNumber = 3;
+        echo $page;
+        for($i=0; $i < $resultNumber; $i++){
             $pages[] = $page;
-        }
+        }*/
         $error = false;
         $form = $this->createForm(new SearchType()); // Search for SEClient
         $form->handleRequest($request);
@@ -35,8 +37,8 @@ class DefaultController extends Controller
                 $data = preg_replace("/[^a-z0-9]+/i", ";",  $data); // REGEX to replace ; to " "
                 $data = "search:" . $data; // Command for SEClient "search:"
             }
-            //var_dump($data); // var_dump test
-            //exec("SEClient", $data);
+            //var_dump("SEClient " . $data); // var_dump test
+            exec("SEClient " . $data, $pages);
             $session = new Session();
             $session->set('results', $pages);
             return $this->redirect($this->generateUrl('result'));
@@ -76,11 +78,12 @@ class DefaultController extends Controller
         $form->handleRequest($request);
         if ($form->isValid()) {
             $data = $form->get('url')->getData();
-            //exec('SEClient', $url, $error);
+            exec('SEClient', $url, $error);
             if ($data != null){
                 $data = "submit:" . $data; // command for SEClient "submit:"
             }
-            var_dump($data); // var_dump test
+            //var_dump("SEClient " . $data); // var_dump test
+            exec("SEClient " . $data);
         }
         return array(
             'form' => $form->createView(),

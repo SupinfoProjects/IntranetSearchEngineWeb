@@ -39,6 +39,9 @@
             color: black;
             width: 700px;
         }
+        #limit {
+            max-width: 75%;
+        }
     </style>
     <script type="application/javascript"></script>
 {% endblock %}
@@ -46,11 +49,7 @@
     <div class="searchbutton"><a href="{{ path('search') }}"><button class="btn btn-success">Search</button></a></div>
     <div class="jumbotron">
         <h1>Intranet Search Engine</h1>
-        <p class="lead">The new Search Engine System</p>
-        <form id="search">
-            <input id="inputSearch" formmethod="post" placeholder="Entrez votre recherche..." type="text" style="">
-            <a class="btn btn-large btn-success" href="{{ path('result') }}">Go!</a>
-        </form>
+        <p class="lead">Research Complete</p>
     </div>
     <div class="container result">
         <div class="panel panel-success">
