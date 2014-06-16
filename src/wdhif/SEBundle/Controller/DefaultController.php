@@ -20,21 +20,19 @@ class DefaultController extends Controller
     public function indexAction(Request $request)
     {
         $error = false;
-        $form = $this->createForm(new SearchType());
+        $form = $this->createForm(new SearchType()); // Search for SEClient
         $form->handleRequest($request);
         if ($form->isValid()) {
-            // data is an array with "name", "email", and "message" keys
-            $data = $form->get('search')->getData();
-            json_encode($data);
-            exec('SEClient', $result, $error);
-            if (isset($result[0])){
-                $result = json_decode($result[0]);
-                var_dump($result);
+            $data = $form->get('search')->getData(); // Form result in $data
+            if ($data != null){
+                $data = preg_replace("/[^a-z0-9]+/i", ";",  $data); // REGEX to replace ; to " "
+                $data = "search:" . $data; // command for SEClient "search:"
             }
+        var_dump($data); // var_dump test
         }
         return array(
             'form' => $form->createView(),
-            'error' => !($error == 0),
+            'error' => !($error == 0), // If Error, return 1
         );
     }
     /**
@@ -63,17 +61,15 @@ class DefaultController extends Controller
     public function submitAction(Request $request)
     {
         $error = false;
-        $form = $this->createForm(new SubmitType());
+        $form = $this->createForm(new SubmitType()); // Submit form for the url crawler
         $form->handleRequest($request);
         if ($form->isValid()) {
-            // data is an array with "name", "email", and "message" keys
             $data = $form->get('url')->getData();
-            json_encode($data);
-            exec('SEClient', $url, $error);
-            if (isset($url[0])){
-                $url = json_decode($url[0]);
-                var_dump($url);
+            //exec('SEClient', $url, $error);
+            if ($data != null){
+                $data = "submit:" . $data; // command for SEClient "submit:"
             }
+            var_dump($data); // var_dump test
         }
         return array(
             'form' => $form->createView(),
