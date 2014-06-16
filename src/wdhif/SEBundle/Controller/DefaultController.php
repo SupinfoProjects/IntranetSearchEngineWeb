@@ -27,6 +27,7 @@ class DefaultController extends Controller
         for($i=0; $i < $resultNumber; $i++){
             $pages[] = $page;
         }*/
+        $res = array();
         $error = false;
         $form = $this->createForm(new SearchType()); // Search for SEClient
         $form->handleRequest($request);
@@ -38,7 +39,8 @@ class DefaultController extends Controller
                 $data = "search:" . $data; // Command for SEClient "search:"
             }
             //var_dump("SEClient " . $data); // var_dump test
-            exec("SEClient " . $data, $pages);
+            exec("SEClient " . $data, $res);
+            $pages = explode(";", $res[0]);
             $session = new Session();
             $session->set('results', $pages);
             return $this->redirect($this->generateUrl('result'));
@@ -84,8 +86,8 @@ class DefaultController extends Controller
                 $data = preg_replace("#/#", "",  $data);
                 $data = "submit:" . $data; // command for SEClient "submit:"
             }
-            var_dump("SEClient " . $data); // var_dump test
-            //exec("SEClient " . $data);
+            //var_dump("SEClient " . $data); // var_dump test
+            exec("SEClient " . $data);
         }
         return array(
             'form' => $form->createView(),
