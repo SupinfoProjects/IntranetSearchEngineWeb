@@ -1,0 +1,107 @@
+{% extends '::base.html.twig' %}
+{% block title %}Search Engine{% endblock %}
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet" type="text/css" href="{{ asset("css/style.css") }}">
+    <link href="{{ asset("css/bootstrap.min.css") }}" rel="stylesheet" media="screen">
+    <style type="text/css">
+        body{
+            background-color: #252525;
+        }
+        .searchbutton{
+            margin-top: 1%;
+            margin-left: 1%;
+            margin-bottom: -5%;
+            height: 50%;
+            width: 50%;
+        }
+        .jumbotron{
+            text-align: center;
+            color: #eeeeee;
+            background-color: #252525;
+        }
+        #scene{
+            margin: 0 auto;
+            padding: 0;
+        }
+        .layer:nth-child(1) {
+            opacity: 0.15;
+        }
+        .layer:nth-child(2) {
+            opacity: 0.30;
+        }
+        .layer:nth-child(3) {
+            opacity: 0.45;
+        }
+        .layer:nth-child(4) {
+            opacity: 0.60;
+        }
+        .layer:nth-child(5) {
+            opacity: 0.75;
+        }
+        .layer:nth-child(6) {
+            opacity: 0.90;
+        }
+        .scenediv{
+            margin: 0 auto;
+            padding: 0;
+            max-width: 150px;
+        }
+        img {
+            display: block;
+            width: 100%;
+        }
+        .search {
+            margin-top: 3%;
+            padding: 0;
+        }
+        .inputSearch {
+            border-radius: 5px 5px;
+            border-color: #5cb85c;
+            border-width: 3px;
+            height: 34px;
+            color: black;
+            width: 700px;
+        }
+        @media screen and (max-width: 850px) {
+            #inputSearch {
+                border-radius: 5px 5px;
+                border-color: #5cb85c;
+                border-width: 3px;
+                height: 34px;
+                color: black;
+                width: 300px;
+            }
+        }
+    </style>
+    <script type="application/javascript"></script>
+{% endblock %}
+{% block body %}
+    <div class="searchbutton"><a href="{{ path('search') }}"><button class="btn btn-success">Search</button></a></div>
+    <div class="jumbotron">
+        <h1>Intranet Search Engine</h1>
+        <p class="lead">Submit your url</p>
+        {{ form_start(form) }}
+        {{ form_widget(form.url) }}
+        {{ form_widget(form.submiturl) }}
+        {{ form_end(form) }}
+    </div>
+    <div class="scenediv">
+        <ul id="scene">
+            <li class="layer" data-depth="0.00"><img src="{{ asset("images/layer1.png") }}"></li>
+            <li class="layer" data-depth="0.20"><img src="{{ asset("images/layer2.png") }}"></li>
+            <li class="layer" data-depth="0.40"><img src="{{ asset("images/layer3.png") }}"></li>
+            <li class="layer" data-depth="0.60"><img src="{{ asset("images/layer4.png") }}"></li>
+            <li class="layer" data-depth="0.80"><img src="{{ asset("images/layer5.png") }}"></li>
+            <li class="layer" data-depth="1.00"><img src="{{ asset("images/layer6.png") }}"></li>
+        </ul>
+    </div>
+{% endblock %}
+{% block javascripts %}
+    <script src="{{ asset("js/parallax.js") }}"></script>
+    <script>
+        var scene = document.getElementById('scene');
+        var parallax = new Parallax(scene);
+    </script>
+    {{ parent() }}
+{% endblock %}

@@ -1,0 +1,92 @@
+{% extends '::base.html.twig' %}
+{% block title %}Search Engine{% endblock %}
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet" type="text/css" href="{{ asset("css/style.css") }}" xmlns="http://www.w3.org/1999/html">
+    <link href="{{ asset("css/bootstrap.min.css") }}" rel="stylesheet" media="screen">
+    <style type="text/css">
+        body{
+            background-color: #252525;
+        }
+        .searchbutton{
+            margin-top: 1%;
+            margin-left: 1%;
+            margin-bottom: -5%;
+            height: 50%;
+            width: 50%;
+        }
+        .jumbotron{
+            text-align: center;
+            color: #eeeeee;
+            background-color: #252525;
+        }
+        img {
+            display: block;
+            width: 100%;
+        }
+        .result {
+            margin-top: -3%;
+            background-color: #252525;
+        }
+        #search {
+            padding: 0;
+        }
+        #inputSearch {
+            border-radius: 5px 5px;
+            border-color: #5cb85c;
+            border-width: 3px;
+            height: 34px;
+            color: black;
+            width: 700px;
+        }
+    </style>
+    <script type="application/javascript"></script>
+{% endblock %}
+{% block body %}
+    <div class="searchbutton"><a href="{{ path('search') }}"><button class="btn btn-success">Search</button></a></div>
+    <div class="jumbotron">
+        <h1>Intranet Search Engine</h1>
+        <p class="lead">The new Search Engine System</p>
+        <form id="search">
+            <input id="inputSearch" formmethod="post" placeholder="Entrez votre recherche..." type="text" style="">
+            <a class="btn btn-large btn-success" href="{{ path('result') }}">Go!</a>
+        </form>
+    </div>
+    <div class="container result">
+        <div class="panel panel-success">
+            <div class="panel-heading">
+                <span class="badge">{% if pagination.getTotalItemCount > 1000 %}Environ {% endif %}{{ pagination.getTotalItemCount }} résultat{% if pagination.getTotalItemCount > 1 %}s{% endif %}</span>
+            </div>
+            <div class="pages list-group">
+                {% for page in pagination %}
+                    <div class="list-group-item">
+                        {{ page }}
+                    </div>
+                {% endfor %}
+            </div>
+            <div class="panel-footer">
+                <div class="row">
+                    <div class="col-md-8">
+                        <div class="navigation">
+                            {{ knp_pagination_render(pagination) }}
+                        </div>
+                    </div>
+                    <div class="col-xs-5 col-md-4 pull-right">
+                        <label for="limit">Number per page</label>
+                        <div class="input-group">
+                            <form method="get" action="{{ path('result') }}">
+                                <input type="text" id="limit" name="limit" class="form-control" placeholder="10"/>
+                                <span class="input-group-btn">
+                                    <button class="btn btn-default" type="submit"><span class="glyphicon glyphicon-refresh"></span></button>
+                                </span>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+{% block javascripts %}
+    {{ parent() }}
+{% endblock %}
