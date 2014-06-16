@@ -16,7 +16,7 @@ class SubmitType extends AbstractType
                 )
             ))
             ->add('submiturl', 'submit', array(
-                'label' => 'submit',
+                'label' => 'Submit',
                 'attr' => array(
                     'class' => 'btn btn-large btn-success',
                 )
