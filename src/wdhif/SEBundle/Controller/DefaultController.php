@@ -21,13 +21,9 @@ class DefaultController extends Controller
     public function indexAction(Request $request)
     {
         $pages = array();
-        /*$page = "";
-        $resultNumber = 3;
-        echo $page;
-        for($i=0; $i < $resultNumber; $i++){
-            $pages[] = $page;
-        }*/
         $res = array();
+        //$page = "www.google.fr;www.google.fr;www.google.fr;www.google.fr;www.google.fr;www.google.fr;www.google.fr;www.google.fr;www.google.fr;www.google.fr;www.google.fr;www.google.fr;www.google.fr;";
+        //$res[0] = $page;
         $error = false;
         $form = $this->createForm(new SearchType()); // Search for SEClient
         $form->handleRequest($request);
@@ -38,12 +34,27 @@ class DefaultController extends Controller
                 $data = preg_replace("/[^a-z0-9]+/i", ";",  $data); // REGEX to replace ; to " "
                 $data = "search:" . $data; // Command for SEClient "search:"
             }
-            //var_dump("SEClient " . $data); // var_dump test
-            exec("SEClient " . $data, $res);
-            $pages = explode(";", $res[0]);
-            $session = new Session();
-            $session->set('results', $pages);
-            return $this->redirect($this->generateUrl('result'));
+            //var_dump("./SEClient " . $data); // var_dump test
+            exec("./SEClient " . $data, $res);
+            //array_filter($res);
+            if (empty($res)) {
+                echo "<script>alert('No result were found.');</script>";
+                header('Location: ../views/default/index.html.twig');
+            }
+            else {
+                $stringResult = implode($res);
+                $pages = explode(";", $stringResult);
+                array_pop($pages);
+                $resultNumber = count($pages);
+                for ($i=0; $i < $resultNumber; $i++){
+                    $pages[$i] = "<a href=\"http://$pages[$i]\">$pages[$i]</a>";
+                }
+                //var_dump($pages);
+                //var_dump($stringResult);
+                $session = new Session();
+                $session->set('results', $pages);
+                return $this->redirect($this->generateUrl('result'));
+            }
         }
         return array(
             'form' => $form->createView(),
